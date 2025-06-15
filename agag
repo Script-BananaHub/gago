@@ -1,3 +1,96 @@
+local Players = game:GetService("Players")
+local StarterGui = game:GetService("StarterGui")
+local player = Players.LocalPlayer
+
+local welcomeGui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
+welcomeGui.Name = "PetDupeWelcome"
+welcomeGui.ResetOnSpawn = false
+
+-- Main popup
+local popup = Instance.new("Frame", welcomeGui)
+popup.Size = UDim2.new(0, 330, 0, 260)
+popup.Position = UDim2.new(0.5, -165, 0.5, -130)
+popup.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+popup.Active = true
+popup.Draggable = true
+Instance.new("UICorner", popup).CornerRadius = UDim.new(0, 12)
+
+-- X button
+local closeBtn = Instance.new("TextButton", popup)
+closeBtn.Size = UDim2.new(0, 30, 0, 30)
+closeBtn.Position = UDim2.new(1, -35, 0, 5)
+closeBtn.Text = "❌"
+closeBtn.TextColor3 = Color3.new(1, 0.4, 0.4)
+closeBtn.BackgroundTransparency = 1
+closeBtn.Font = Enum.Font.GothamBold
+closeBtn.TextSize = 20
+closeBtn.MouseButton1Click:Connect(function()
+	welcomeGui:Destroy()
+end)
+
+-- Title
+local title = Instance.new("TextLabel", popup)
+title.Size = UDim2.new(1, -40, 0, 30)
+title.Position = UDim2.new(0, 10, 0, 10)
+title.Text = "📋 Supported Pets for Duping"
+title.TextColor3 = Color3.new(1, 1, 1)
+title.BackgroundTransparency = 1
+title.Font = Enum.Font.GothamBold
+title.TextSize = 16
+title.TextXAlignment = Enum.TextXAlignment.Left
+
+-- Pet List
+local petList = Instance.new("TextLabel", popup)
+petList.Size = UDim2.new(1, -20, 0, 150)
+petList.Position = UDim2.new(0, 10, 0, 50)
+petList.Text = [[
+🦝 Raccoon
+🐉 Dragonfly
+🐝🪩 Disco Bee
+🐝 Queen Bee
+🦋 Butterfly
+🦊 Red Fox
+
+🎁 Join our Discord to win 20x Raccoon!
+]]
+petList.TextColor3 = Color3.new(1, 1, 1)
+petList.BackgroundTransparency = 1
+petList.Font = Enum.Font.Gotham
+petList.TextSize = 14
+petList.TextWrapped = true
+petList.TextYAlignment = Enum.TextYAlignment.Top
+petList.TextXAlignment = Enum.TextXAlignment.Left
+
+-- Copy Discord Button
+local copyBtn = Instance.new("TextButton", popup)
+copyBtn.Size = UDim2.new(0.9, 0, 0, 35)
+copyBtn.Position = UDim2.new(0.05, 0, 1, -45)
+copyBtn.BackgroundColor3 = Color3.fromRGB(65, 130, 65)
+copyBtn.Text = "📎 Copy Discord Link"
+copyBtn.TextColor3 = Color3.new(1, 1, 1)
+copyBtn.Font = Enum.Font.GothamBold
+copyBtn.TextSize = 15
+Instance.new("UICorner", copyBtn).CornerRadius = UDim.new(0, 6)
+
+copyBtn.MouseButton1Click:Connect(function()
+	local success = pcall(function()
+		setclipboard("https://discord.gg/admtDBsuXM")
+	end)
+	if success then
+		StarterGui:SetCore("SendNotification", {
+			Title = "Discord Copied!",
+			Text = "Invite link copied to clipboard ✅",
+			Duration = 3
+		})
+	else
+		StarterGui:SetCore("SendNotification", {
+			Title = "Failed",
+			Text = "Clipboard not supported ⚠️",
+			Duration = 3
+		})
+	end
+end)
+
 -- dupe gui with valid + invalid notifications (by chatgpt)
 
 local validPets = {
