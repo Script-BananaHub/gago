@@ -1,0 +1,95 @@
+-- dupe gui with valid + invalid notifications (by chatgpt)
+
+local validPets = {
+    ["Dragonfly"] = true,
+    ["Raccoon"] = true,
+    ["Disco Bee"] = true,
+    ["Butterfly"] = true,
+    ["Queen Bee"] = true,
+    ["Red Fox"] = true
+}
+
+local gui = Instance.new("ScreenGui")
+gui.Name = "GrowAGardenPetDupe"
+gui.ResetOnSpawn = false
+gui.Parent = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
+
+local frame = Instance.new("Frame", gui)
+frame.Size = UDim2.new(0, 250, 0, 210)
+frame.Position = UDim2.new(0.05, 0, 0.4, 0)
+frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+frame.Active = true
+frame.Draggable = true
+
+Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 10)
+
+local title = Instance.new("TextLabel", frame)
+title.Size = UDim2.new(1, 0, 0, 40)
+title.Position = UDim2.new(0, 0, 0, 0)
+title.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+title.Text = "🐾 GAG Pet Dupe"
+title.TextColor3 = Color3.new(1, 1, 1)
+title.Font = Enum.Font.GothamBold
+title.TextSize = 18
+Instance.new("UICorner", title).CornerRadius = UDim.new(0, 10)
+
+local input = Instance.new("TextBox", frame)
+input.PlaceholderText = "Type pet name here..."
+input.Size = UDim2.new(0.9, 0, 0, 35)
+input.Position = UDim2.new(0.05, 0, 0, 50)
+input.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+input.TextColor3 = Color3.new(1, 1, 1)
+input.Font = Enum.Font.Gotham
+input.TextSize = 14
+Instance.new("UICorner", input).CornerRadius = UDim.new(0, 6)
+
+local status = Instance.new("TextLabel", frame)
+status.Size = UDim2.new(1, -20, 0, 40)
+status.Position = UDim2.new(0, 10, 0, 90)
+status.Text = "Please put a pet name / make sure you have it"
+status.BackgroundTransparency = 1
+status.TextColor3 = Color3.new(1, 1, 1)
+status.Font = Enum.Font.Gotham
+status.TextSize = 13
+status.TextWrapped = true
+status.TextYAlignment = Enum.TextYAlignment.Center
+
+local dupeBtn = Instance.new("TextButton", frame)
+dupeBtn.Size = UDim2.new(0.9, 0, 0, 35)
+dupeBtn.Position = UDim2.new(0.05, 0, 0, 140)
+dupeBtn.BackgroundColor3 = Color3.fromRGB(65, 130, 65)
+dupeBtn.Text = "Dupe Pet"
+dupeBtn.TextColor3 = Color3.new(1, 1, 1)
+dupeBtn.Font = Enum.Font.GothamBold
+dupeBtn.TextSize = 15
+Instance.new("UICorner", dupeBtn).CornerRadius = UDim.new(0, 6)
+
+input:GetPropertyChangedSignal("Text"):Connect(function()
+	local pet = input.Text:match("^%s*(.-)%s*$")
+	if pet == "" then
+		status.Text = "Please put a pet name / make sure you have it"
+	elseif validPets[pet] then
+		status.Text = "Pet Found"
+	else
+		status.Text = "Pet not found / unsupported"
+	end
+end)
+
+dupeBtn.MouseButton1Click:Connect(function()
+	local petName = input.Text:match("^%s*(.-)%s*$")
+	if validPets[petName] then
+		status.Text = "Please wait... The pet is duping"
+		game:GetService("StarterGui"):SetCore("SendNotification", {
+			Title = "Grow A Garden",
+			Text = "Bypassing... your pet is duping ✅",
+			Duration = 4
+		})
+	else
+		status.Text = "Pet not found / unsupported"
+		game:GetService("StarterGui"):SetCore("SendNotification", {
+			Title = "Grow A Garden",
+			Text = "You don't have this supported pet. Duplication won't work.",
+			Duration = 4
+		})
+	end
+end)
