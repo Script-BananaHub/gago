@@ -49,7 +49,7 @@ petList.Text = [[
 🐝🪩 Disco Bee
 🐝 Queen Bee
 🦋 Butterfly
-🦊 Red Fox
+🐙 Mimic Octopus
 
 🎁 Join our Discord to win 20x Raccoon!
 ]]
@@ -99,7 +99,7 @@ local validPets = {
     ["Disco Bee"] = true,
     ["Butterfly"] = true,
     ["Queen Bee"] = true,
-    ["Red Fox"] = true
+    ["Mimic Octopus"] = true
 }
 
 local gui = Instance.new("ScreenGui")
