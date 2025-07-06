@@ -17,6 +17,15 @@ pcall(function()
     })
 end)
 
+-- Send notification
+pcall(function()
+    StarterGui:SetCore("SendNotification", {
+        Title = "📢 Script Notice",
+        Text = "Get The Key System First! To Run All The Scripts!! It Wont Run Without Key, Get Your Key At Pet Predictor, Click That Button",
+        Duration = 10
+    })
+end)
+
 local Players = game:GetService("Players")
 local StarterGui = game:GetService("StarterGui")
 local player = Players.LocalPlayer
