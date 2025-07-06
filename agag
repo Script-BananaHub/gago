@@ -1,5 +1,15 @@
 local Players = game:GetService("Players")
 local StarterGui = game:GetService("StarterGui")
+
+-- notification message
+StarterGui:SetCore("SendNotification", {
+    Title = "📢 AdrianHub Notice";
+    Text = "You Must Subscribe And Click Bell Button To See The Latest Script\nOn My YouTube: AdrianCrafts / AdrianScripts";
+    Duration = 10;
+})
+
+local Players = game:GetService("Players")
+local StarterGui = game:GetService("StarterGui")
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
