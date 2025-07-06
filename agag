@@ -1,12 +1,21 @@
-local Players = game:GetService("Players")
 local StarterGui = game:GetService("StarterGui")
 
--- notification message
-StarterGui:SetCore("SendNotification", {
-    Title = "📢 AdrianHub Notice";
-    Text = "You Must Subscribe And Click Bell Button To See The Latest Script\nOn My YouTube: AdrianCrafts / AdrianScripts";
-    Duration = 10;
-})
+-- Wait for game to load
+if not game:IsLoaded() then
+    game.Loaded:Wait()
+end
+
+-- Delay before sending notification
+task.wait(1)
+
+-- Send notification
+pcall(function()
+    StarterGui:SetCore("SendNotification", {
+        Title = "📢 AdrianHub Notice",
+        Text = "You Must Subscribe And Click Bell Button To See The Latest Script\nOn My YouTube: AdrianCrafts / AdrianScripts",
+        Duration = 10
+    })
+end)
 
 local Players = game:GetService("Players")
 local StarterGui = game:GetService("StarterGui")
