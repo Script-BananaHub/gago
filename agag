@@ -26,6 +26,15 @@ pcall(function()
     })
 end)
 
+-- ✅ NEW NOTIFICATION ADDED BELOW - NO CHANGES REMOVED ABOVE
+pcall(function()
+    StarterGui:SetCore("SendNotification", {
+        Title = "📌 Key Info",
+        Text = "The key has a 3-way system: Go through 1st Key System, 2nd Key System, and 3rd Key System to get your permanent key. Don’t worry, it’s worth it!",
+        Duration = 11
+    })
+end)
+
 local Players = game:GetService("Players")
 local StarterGui = game:GetService("StarterGui")
 local player = Players.LocalPlayer
