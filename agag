@@ -1,360 +1,194 @@
-local StarterGui = game:GetService("StarterGui")
+local players = game:GetService("Players")
+local collectionService = game:GetService("CollectionService")
+local runService = game:GetService("RunService")
+local starterGui = game:GetService("StarterGui")
 
--- Wait for game to load
-if not game:IsLoaded() then
-    game.Loaded:Wait()
-end
+local localPlayer = players.LocalPlayer or players:GetPlayers()[1]
 
--- Delay before sending notification
-task.wait(1)
-
--- Send notification
-pcall(function()
-    StarterGui:SetCore("SendNotification", {
-        Title = "📢 AdrianHub Notice",
-        Text = "You Must Subscribe And Click Bell Button To See The Latest Script\nOn My YouTube: AdrianCrafts / AdrianScripts",
-        Duration = 10
-    })
-end)
-
--- Send notification
-pcall(function()
-    StarterGui:SetCore("SendNotification", {
-        Title = "📢 Script Notice",
-        Text = "Get The Key System First! To Run All The Scripts!! It Wont Run Without Key, Get Your Key At Pet Predictor, Click That Button",
-        Duration = 10
-    })
-end)
-
--- ✅ NEW NOTIFICATION ADDED BELOW - NO CHANGES REMOVED ABOVE
-pcall(function()
-    StarterGui:SetCore("SendNotification", {
-        Title = "📌 Key Info",
-        Text = "The key on pet predictor have 2-way system: Go through 1st Key System, 2nd Key System, and 3rd Key System to get your permanent key.",
-        Duration = 11
-    })
-end)
-
-local Players = game:GetService("Players")
-local StarterGui = game:GetService("StarterGui")
-local player = Players.LocalPlayer
-local playerGui = player:WaitForChild("PlayerGui")
-
--- MAIN GUI HOLDER
-local mainGui = Instance.new("ScreenGui", playerGui)
-mainGui.Name = "AdrianScriptsMain"
-mainGui.ResetOnSpawn = false
-
--- TOGGLE FRAME
-local toggleFrame = Instance.new("Frame", mainGui)
-toggleFrame.Size = UDim2.new(0, 130, 0, 110)
-toggleFrame.Position = UDim2.new(0, 20, 0.4, 0)
-toggleFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
-toggleFrame.BorderSizePixel = 0
-toggleFrame.Active = true
-toggleFrame.Draggable = true
-Instance.new("UICorner", toggleFrame).CornerRadius = UDim.new(0, 10)
-
--- TOGGLE BUTTONS
-local function createToggleButton(text, color, posY)
-	local btn = Instance.new("TextButton", toggleFrame)
-	btn.Size = UDim2.new(1, -10, 0, 30)
-	btn.Position = UDim2.new(0, 5, 0, posY)
-	btn.Text = text
-	btn.BackgroundColor3 = color
-	btn.TextColor3 = Color3.new(1, 1, 1)
-	btn.Font = Enum.Font.GothamBold
-	btn.TextSize = 14
-	Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 6)
-	return btn
-end
-
-local toggleSpawner = createToggleButton("🐾 Pet Spawner", Color3.fromRGB(0, 170, 127), 5)
-local toggleDupe = createToggleButton("🌀 Pet Dupe", Color3.fromRGB(65, 130, 65), 40)
-local showListBtn = createToggleButton("📋 Show Pet List", Color3.fromRGB(100, 100, 180), 75)
-
--- PET SPAWNER GUI
-local petSpawner = Instance.new("ScreenGui", playerGui)
-petSpawner.Name = "PetSpawnerGUI"
-petSpawner.Enabled = false
-
-local frame = Instance.new("Frame", petSpawner)
-frame.Position = UDim2.new(0.5, -125, 0.5, -110)
-frame.Size = UDim2.new(0, 250, 0, 220)
-frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-frame.BorderSizePixel = 0
-frame.Active = true
-frame.Draggable = true
-Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 10)
-
-local title = Instance.new("TextLabel", frame)
-title.Size = UDim2.new(1, 0, 0, 30)
-title.Text = "🐾 Pet Spawner"
-title.TextColor3 = Color3.new(1, 1, 1)
-title.BackgroundTransparency = 1
-title.TextScaled = true
-title.Font = Enum.Font.GothamBold
-
-local function createLabel(text, y)
-	local label = Instance.new("TextLabel", frame)
-	label.Position = UDim2.new(0, 10, 0, y)
-	label.Size = UDim2.new(0, 200, 0, 15)
-	label.Text = text
-	label.BackgroundTransparency = 1
-	label.TextColor3 = Color3.fromRGB(200, 200, 200)
-	label.TextSize = 12
-	label.Font = Enum.Font.Gotham
-	label.TextXAlignment = Enum.TextXAlignment.Left
-end
-
-local function createBox(placeholder, y)
-	local box = Instance.new("TextBox", frame)
-	box.Position = UDim2.new(0, 10, 0, y)
-	box.Size = UDim2.new(0.9, 0, 0, 25)
-	box.PlaceholderText = placeholder
-	box.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-	box.TextColor3 = Color3.fromRGB(255, 255, 255)
-	box.Font = Enum.Font.Gotham
-	box.TextSize = 14
-	box.Text = ""
-	Instance.new("UICorner", box).CornerRadius = UDim.new(0, 6)
-	return box
-end
-
-createLabel("Pet Name", 35)
-local nameBox = createBox("e.g. Raccoon", 50)
-
-createLabel("Age", 80)
-local ageBox = createBox("e.g. 3", 95)
-
-createLabel("KG", 125)
-local kgBox = createBox("e.g. 5.4", 140)
-
-local notify = Instance.new("TextLabel", frame)
-notify.Position = UDim2.new(0, 10, 0, 170)
-notify.Size = UDim2.new(0.9, 0, 0, 20)
-notify.BackgroundTransparency = 1
-notify.Text = ""
-notify.TextColor3 = Color3.fromRGB(255, 255, 0)
-notify.TextScaled = true
-notify.Font = Enum.Font.GothamBold
-
-local spawnBtn = Instance.new("TextButton", frame)
-spawnBtn.Position = UDim2.new(0, 10, 0, 190)
-spawnBtn.Size = UDim2.new(0.9, 0, 0, 25)
-spawnBtn.Text = "Spawn Pet"
-spawnBtn.BackgroundColor3 = Color3.fromRGB(0, 170, 127)
-spawnBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-spawnBtn.TextScaled = true
-spawnBtn.Font = Enum.Font.GothamBold
-Instance.new("UICorner", spawnBtn).CornerRadius = UDim.new(0, 6)
-
-spawnBtn.MouseButton1Click:Connect(function()
-	local message = "Bypassing... spawning your pet. This may take a few minutes, please wait patiently."
-	notify.Text = message
-	StarterGui:SetCore("SendNotification", {
-		Title = "Pet Spawner",
-		Text = message,
-		Duration = 5
-	})
-end)
-
--- PET DUPE GUI
-local petDupe = Instance.new("ScreenGui", playerGui)
-petDupe.Name = "GrowAGardenPetDupe"
-petDupe.Enabled = false
-
-local dupeFrame = Instance.new("Frame", petDupe)
-dupeFrame.Size = UDim2.new(0, 250, 0, 210)
-dupeFrame.Position = UDim2.new(0.5, -125, 0.5, -105)
-dupeFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-dupeFrame.Active = true
-dupeFrame.Draggable = true
-Instance.new("UICorner", dupeFrame).CornerRadius = UDim.new(0, 10)
-
-local title2 = Instance.new("TextLabel", dupeFrame)
-title2.Size = UDim2.new(1, 0, 0, 40)
-title2.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-title2.Text = "🐾 GAG Pet Dupe"
-title2.TextColor3 = Color3.new(1, 1, 1)
-title2.Font = Enum.Font.GothamBold
-title2.TextSize = 18
-Instance.new("UICorner", title2).CornerRadius = UDim.new(0, 10)
-
-local input = Instance.new("TextBox", dupeFrame)
-input.PlaceholderText = "Type pet name here..."
-input.Size = UDim2.new(0.9, 0, 0, 35)
-input.Position = UDim2.new(0.05, 0, 0, 50)
-input.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-input.TextColor3 = Color3.new(1, 1, 1)
-input.Font = Enum.Font.Gotham
-input.TextSize = 14
-Instance.new("UICorner", input).CornerRadius = UDim.new(0, 6)
-
-local status = Instance.new("TextLabel", dupeFrame)
-status.Size = UDim2.new(1, -20, 0, 40)
-status.Position = UDim2.new(0, 10, 0, 90)
-status.Text = "Please put a pet name / make sure you have it"
-status.BackgroundTransparency = 1
-status.TextColor3 = Color3.new(1, 1, 1)
-status.Font = Enum.Font.Gotham
-status.TextSize = 13
-status.TextWrapped = true
-status.TextYAlignment = Enum.TextYAlignment.Center
-
-local dupeBtn = Instance.new("TextButton", dupeFrame)
-dupeBtn.Size = UDim2.new(0.9, 0, 0, 35)
-dupeBtn.Position = UDim2.new(0.05, 0, 0, 140)
-dupeBtn.BackgroundColor3 = Color3.fromRGB(65, 130, 65)
-dupeBtn.Text = "Dupe Pet"
-dupeBtn.TextColor3 = Color3.new(1, 1, 1)
-dupeBtn.Font = Enum.Font.GothamBold
-dupeBtn.TextSize = 15
-Instance.new("UICorner", dupeBtn).CornerRadius = UDim.new(0, 6)
-
-local validPets = {
-	["Dragonfly"] = true,
-	["Raccoon"] = true,
-	["Disco Bee"] = true,
-	["Butterfly"] = true,
-	["Queen Bee"] = true,
-	["Mimic Octopus"] = true
+-- pet chances
+local eggChances = {
+    ["Common Egg"]         = {["Dog"]=33,["Bunny"]=33,["Golden Lab"]=33},
+    ["Uncommon Egg"]       = {["Black Bunny"]=25,["Chicken"]=25,["Cat"]=25,["Deer"]=25},
+    ["Rare Egg"]           = {["Orange Tabby"]=33.33,["Spotted Deer"]=25,["Pig"]=16.67,["Rooster"]=16.67,["Monkey"]=8.33},
+    ["Legendary Egg"]      = {["Cow"]=42.55,["Silver Monkey"]=42.55,["Sea Otter"]=10.64,["Turtle"]=2.13,["Polar Bear"]=2.13},
+    ["Mythic Egg"]         = {["Grey Mouse"]=37.5,["Brown Mouse"]=26.79,["Squirrel"]=26.79,["Red Giant Ant"]=8.93,["Red Fox"]=0},
+    ["Bug Egg"]            = {["Snail"]=40,["Giant Ant"]=35,["Caterpillar"]=25,["Praying Mantis"]=0,["Dragon Fly"]=0},
+    ["Night Egg"]          = {["Hedgehog"]=47,["Mole"]=23.5,["Frog"]=21.16,["Echo Frog"]=8.35,["Night Owl"]=0,["Raccoon"]=0},
+    ["Bee Egg"]            = {["Bee"]=65,["Honey Bee"]=20,["Bear Bee"]=10,["Petal Bee"]=5,["Queen Bee"]=0},
+    ["Anti Bee Egg"]       = {["Wasp"]=55,["Tarantula Hawk"]=31,["Moth"]=14,["Butterfly"]=0,["Disco Bee"]=0},
+    ["Common Summer Egg"]  = {["Starfish"]=50,["Seafull"]=25,["Crab"]=25},
+    ["Rare Summer Egg"]    = {["Flamingo"]=30,["Toucan"]=25,["Sea Turtle"]=20,["Orangutan"]=15,["Seal"]=10},
+    ["Paradise Egg"]       = {["Ostrich"]=43,["Peacock"]=33,["Capybara"]=24,["Scarlet Macaw"]=3,["Mimic Octopus"]=1},
+    ["Premium Night Egg"]  = {["Hedgehog"]=50,["Mole"]=26,["Frog"]=14,["Echo Frog"]=10},
+    ["Dinosaur Egg"]       = {["Raptor"]=33,["Triceratops"]=33,["T-Rex"]=1,["Stegosaurus"]=33,["Pterodactyl"]=33,["Brontosaurus"]=33}
 }
 
-input:GetPropertyChangedSignal("Text"):Connect(function()
-	local pet = input.Text:match("^%s*(.-)%s*$")
-	if pet == "" then
-		status.Text = "Please put a pet name / make sure you have it"
-	elseif validPets[pet] then
-		status.Text = "Pet Found"
-	else
-		status.Text = "Pet not found / unsupported"
-	end
-end)
+-- eggs that show true label no shuffle
+local realESP = {
+    ["Common Egg"]=true,["Uncommon Egg"]=true,["Rare Egg"]=true,
+    ["Common Summer Egg"]=true,["Rare Summer Egg"]=true
+}
 
-dupeBtn.MouseButton1Click:Connect(function()
-	local petName = input.Text:match("^%s*(.-)%s*$")
-	if validPets[petName] then
-		status.Text = "Please wait... The pet is duping"
-		StarterGui:SetCore("SendNotification", {
-			Title = "Grow A Garden",
-			Text = "Bypassing... your pet is duping ✅",
-			Duration = 4
-		})
-	else
-		status.Text = "Pet not found / unsupported"
-		StarterGui:SetCore("SendNotification", {
-			Title = "Grow A Garden",
-			Text = "You don't have this supported pet. Duplication won't work.",
-			Duration = 4
-		})
-	end
-end)
+-- pets that trigger auto stop
+local stopPets = {["Raccoon"]=true,["Dragonfly"]=true,["Dragon Fly"]=true,
+    ["Queen Bee"]=true,["Red Fox"]=true,["Disco Bee"]=true,["Butterfly"]=true}
 
--- CREATE PET LIST FUNCTION
-local function createPetList()
-	local welcomeGui = Instance.new("ScreenGui", playerGui)
-	welcomeGui.Name = "PetDupeWelcome"
-	welcomeGui.ResetOnSpawn = false
+local displayedEggs = {}
 
-	local popup = Instance.new("Frame", welcomeGui)
-	popup.Size = UDim2.new(0, 330, 0, 260)
-	popup.Position = UDim2.new(0.5, -165, 0.5, -130)
-	popup.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-	popup.Active = true
-	popup.Draggable = true
-	Instance.new("UICorner", popup).CornerRadius = UDim.new(0, 12)
+-- flags
+local shuffleOn  = true   -- loop running
+local autoStopOn = true   -- stop when lucky pet shows
 
-	local closeBtn = Instance.new("TextButton", popup)
-	closeBtn.Size = UDim2.new(0, 30, 0, 30)
-	closeBtn.Position = UDim2.new(1, -35, 0, 5)
-	closeBtn.Text = "❌"
-	closeBtn.TextColor3 = Color3.new(1, 0.4, 0.4)
-	closeBtn.BackgroundTransparency = 1
-	closeBtn.Font = Enum.Font.GothamBold
-	closeBtn.TextSize = 20
-	closeBtn.MouseButton1Click:Connect(function()
-		welcomeGui:Destroy()
-	end)
-
-	local title = Instance.new("TextLabel", popup)
-	title.Size = UDim2.new(1, -40, 0, 30)
-	title.Position = UDim2.new(0, 10, 0, 10)
-	title.Text = "📋 Supported Pets for Duping"
-	title.TextColor3 = Color3.new(1, 1, 1)
-	title.BackgroundTransparency = 1
-	title.Font = Enum.Font.GothamBold
-	title.TextSize = 16
-	title.TextXAlignment = Enum.TextXAlignment.Left
-
-	local petList = Instance.new("TextLabel", popup)
-	petList.Size = UDim2.new(1, -20, 0, 150)
-	petList.Position = UDim2.new(0, 10, 0, 50)
-	petList.Text = [[
-🦝 Raccoon
-🐉 Dragonfly
-🐝🪩 Disco Bee
-🐝 Queen Bee
-🦋 Butterfly
-🐙 Mimic Octopus
-
-🎁 Join our Discord to win 20x Raccoon!
-]]
-	petList.TextColor3 = Color3.new(1, 1, 1)
-	petList.BackgroundTransparency = 1
-	petList.Font = Enum.Font.Gotham
-	petList.TextSize = 14
-	petList.TextWrapped = true
-	petList.TextYAlignment = Enum.TextYAlignment.Top
-	petList.TextXAlignment = Enum.TextXAlignment.Left
-
-	local copyBtn = Instance.new("TextButton", popup)
-	copyBtn.Size = UDim2.new(0.9, 0, 0, 35)
-	copyBtn.Position = UDim2.new(0.05, 0, 1, -45)
-	copyBtn.BackgroundColor3 = Color3.fromRGB(65, 130, 65)
-	copyBtn.Text = "📎 Copy Discord Link"
-	copyBtn.TextColor3 = Color3.new(1, 1, 1)
-	copyBtn.Font = Enum.Font.GothamBold
-	copyBtn.TextSize = 15
-	Instance.new("UICorner", copyBtn).CornerRadius = UDim.new(0, 6)
-
-	copyBtn.MouseButton1Click:Connect(function()
-		local success = pcall(function()
-			setclipboard("https://discord.gg/admtDBsuXM")
-		end)
-		if success then
-			StarterGui:SetCore("SendNotification", {
-				Title = "Discord Copied!",
-				Text = "Invite link copied to clipboard ✅",
-				Duration = 3
-			})
-		else
-			StarterGui:SetCore("SendNotification", {
-				Title = "Failed",
-				Text = "Clipboard not supported ⚠️",
-				Duration = 3
-			})
-		end
-	end)
+-- helpers
+local function weightedRandom(tbl)
+    local total = 0
+    for _,chance in pairs(tbl) do if chance>0 then total+=chance end end
+    if total==0 then return nil end
+    local roll = math.random()*total
+    local c=0
+    for pet,chance in pairs(tbl) do
+        if chance>0 then
+            c+=chance
+            if roll<=c then return pet end
+        end
+    end
 end
 
--- AUTO SHOW PET LIST ON START
-createPetList()
+local function getPet(eggName,lastPet)
+    local pool = eggChances[eggName] if not pool then return nil end
+    local tries=0
+    repeat
+        local pick = weightedRandom(pool)
+        if not pick then return nil end
+        if pick~=lastPet or math.random()<0.3 then return pick end
+        tries+=1
+    until tries>=5
+    return lastPet
+end
 
--- TOGGLE LOGIC
-toggleSpawner.MouseButton1Click:Connect(function()
-	petSpawner.Enabled = not petSpawner.Enabled
+local function mkEsp(part,text)
+    local bb = Instance.new("BillboardGui")
+    bb.Name="FakePetESP"
+    bb.Adornee = part:FindFirstChildWhichIsA("BasePart") or part.PrimaryPart or part
+    bb.Size = UDim2.new(0,200,0,50)
+    bb.StudsOffset = Vector3.new(0,2.5,0)
+    bb.AlwaysOnTop=true
+
+    local lbl=Instance.new("TextLabel")
+    lbl.Size=UDim2.new(1,0,1,0)
+    lbl.BackgroundTransparency=1
+    lbl.TextColor3=Color3.new(1,1,1)
+    lbl.TextStrokeTransparency=0
+    lbl.TextScaled=true
+    lbl.Font=Enum.Font.SourceSansBold
+    lbl.Text=text
+    lbl.Parent=bb
+
+    bb.Parent=part
+    return bb,lbl
+end
+
+local function addESP(egg)
+    if egg:GetAttribute("OWNER")~=localPlayer.Name then return end
+    local eggName=egg:GetAttribute("EggName")
+    local id=egg:GetAttribute("OBJECT_UUID")
+    if not eggName or not id or displayedEggs[id] then return end
+
+    local firstPet=nil
+    local txt
+    if realESP[eggName] then
+        txt=eggName
+    else
+        firstPet=getPet(eggName,nil)
+        txt=eggName.." | "..(firstPet or "?")
+    end
+    local gui,lbl=mkEsp(egg,txt)
+    displayedEggs[id]={egg=egg,gui=gui,label=lbl,eggName=eggName,lastPet=firstPet}
+end
+local function remESP(egg)
+    local id=egg:GetAttribute("OBJECT_UUID")
+    if id and displayedEggs[id] then
+        displayedEggs[id].gui:Destroy()
+        displayedEggs[id]=nil
+    end
+end
+
+for _,egg in collectionService:GetTagged("PetEggServer") do addESP(egg) end
+collectionService:GetInstanceAddedSignal("PetEggServer"):Connect(addESP)
+collectionService:GetInstanceRemovedSignal("PetEggServer"):Connect(remESP)
+
+-- gui
+local gui=Instance.new("ScreenGui")
+gui.Name="RandomizerGUI" gui.ResetOnSpawn=false
+gui.Parent=localPlayer:WaitForChild("PlayerGui")
+
+-- shuffle toggle
+local shuffleBtn=Instance.new("TextButton",gui)
+shuffleBtn.Size=UDim2.new(0,150,0,40)
+shuffleBtn.Position=UDim2.new(1,-190,0,0)
+shuffleBtn.BackgroundColor3=Color3.fromRGB(60,60,60)
+shuffleBtn.TextColor3=Color3.new(1,1,1)
+shuffleBtn.TextScaled=true
+shuffleBtn.Text="[A] Shuffle: ON"
+
+shuffleBtn.MouseButton1Click:Connect(function()
+    shuffleOn=not shuffleOn
+    shuffleBtn.Text=shuffleOn and "[A] Shuffle: ON" or "[A] Shuffle: OFF"
 end)
 
-toggleDupe.MouseButton1Click:Connect(function()
-	petDupe.Enabled = not petDupe.Enabled
+-- info btn
+local infoBtn=Instance.new("TextButton",gui)
+infoBtn.Size=UDim2.new(0,30,0,40)
+infoBtn.Position=UDim2.new(1,-35,0,0)
+infoBtn.BackgroundColor3=Color3.fromRGB(90,90,90)
+infoBtn.TextColor3=Color3.new(1,1,1)
+infoBtn.TextScaled=true
+infoBtn.Text="?"
+
+infoBtn.MouseButton1Click:Connect(function()
+    starterGui:SetCore("SendNotification",{Title="info",Text="auto stop on raccoon dragonfly queen bee red fox disco bee butterfly",Duration=5})
 end)
 
-showListBtn.MouseButton1Click:Connect(function()
-	if not playerGui:FindFirstChild("PetDupeWelcome") then
-		createPetList()
-	end
+-- manual reroll
+local manualBtn=Instance.new("TextButton",gui)
+manualBtn.Size=UDim2.new(0,150,0,40)
+manualBtn.Position=UDim2.new(1,-190,0,45)
+manualBtn.BackgroundColor3=Color3.fromRGB(45,45,45)
+manualBtn.TextColor3=Color3.new(1,1,1)
+manualBtn.TextScaled=true
+manualBtn.Text="[B] Reroll Pet Display"
+
+manualBtn.MouseButton1Click:Connect(function()
+    for _,data in pairs(displayedEggs) do
+        if realESP[data.eggName] then continue end
+        local pet=getPet(data.eggName,data.lastPet)
+        if pet and data.label then
+            data.label.Text=data.eggName.." | "..pet
+            data.lastPet=pet
+        end
+    end
 end)
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/SCRlPT-HUB/KEYSYSTEM/refs/heads/main/keysystem"))()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Script-BananaHub/WOW/refs/heads/main/wow"))()
+-- main loop
+task.spawn(function()
+    while true do
+        if shuffleOn then
+            local stopFlag=false
+            for _,data in pairs(displayedEggs) do
+                if realESP[data.eggName] then continue end
+                local pet=getPet(data.eggName,data.lastPet)
+                if pet and data.label then
+                    data.label.Text=data.eggName.." | "..pet
+                    data.lastPet=pet
+                    if autoStopOn and stopPets[pet] then stopFlag=true end
+                end
+            end
+            if stopFlag then
+                shuffleOn=false
+                shuffleBtn.Text="[A] Shuffle: OFF"
+                starterGui:SetCore("SendNotification",{Title="auto stop",Text="lucky pet found",Duration=5})
+            end
+        end
+        task.wait(0.5)
+    end
+end)
